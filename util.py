@@ -9,7 +9,7 @@ from gensim.models.keyedvectors import KeyedVectors
 
 
 def generate_2d_xor_dataset(d: float = 4, seed: int = 1) -> Tuple[np.ndarray,
-                                                         np.ndarray]:
+                                                                  np.ndarray]:
     """
     Generates a 2D dataset with the following properties:
 
@@ -406,9 +406,9 @@ def check_backward_pass_yelp(yelp_network_class,
         "W_3": np.array([-0.13195385]),
         "b_3": np.array([[-0.54190472]]),
         "W_2": np.array([0., 0.]),
-        "b_2": np.array([0.08897072, -0.01713924]),
-        "W_1": np.array([0.00000000e+00, 6.74321543e-04]),
-        "b_1": np.array([0., 0.0020707])
+        "b_2": np.array([0.48445836, -0.07494552]),
+        "W_1": np.array([0., 0.03387387]),
+        "b_1": np.array([0., 0.10676524])
     }
 
     for name, gradient in test_network_gradients.items():
