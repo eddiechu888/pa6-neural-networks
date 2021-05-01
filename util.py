@@ -404,7 +404,7 @@ def check_backward_pass_yelp(yelp_network_class,
 
     correct_gradients = {
         "W_3": np.array([-0.13195385]),
-        "b_3": np.array([[-0.54190472]]),
+        "b_3": np.array([-0.54190472]),
         "W_2": np.array([0., 0.]),
         "b_2": np.array([0.48445836, -0.07494552]),
         "W_1": np.array([0., 0.03387387]),
@@ -412,7 +412,9 @@ def check_backward_pass_yelp(yelp_network_class,
     }
 
     for name, gradient in test_network_gradients.items():
-        if np.linalg.norm(gradient[0] - correct_gradients[name]) <= tolerance:
+        if gradient.ndim > 1:
+            gradient = gradient[0]
+        if np.linalg.norm(gradient - correct_gradients[name]) <= tolerance:
             print("Backward pass gradient {} is correct.".format(name))
         else:
             print("Backward pass gradient {} is incorrect!!".format(name))
