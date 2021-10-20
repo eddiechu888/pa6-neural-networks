@@ -141,7 +141,45 @@ def plot_points_with_classifier_predictions(
     plt.legend()
     plt.show()
 
+def check_parameter_shapes(stacked_logreg_model_class):
+    test_network = stacked_logreg_model_class(10, 20, 30)
+    errors = []
+    if test_network.W_1.shape != (10, 20):
+        errors.append("W_1")
+    if test_network.W_2.shape != (20, 30):
+        errors.append("W_2")
+    if test_network.W_3.shape != (30, 1):
+        errors.append("W_3")
+    if test_network.b_1.shape != (1, 20):
+        errors.append("b_1")   
+    if test_network.b_2.shape != (1, 30):
+        errors.append("b_2")   
+    if test_network.b_3.shape != (1, 1):
+        errors.append("b_3")   
+    if len(errors) == 0:
+        print("All parameter shapes are correct.")
+    else:
+        print(", ".join(errors)+" have incorrect shapes!")
+        
+def check_predict(stacked_logreg_model_class,
+                  X: np.ndarray) -> None:
 
+    # Seed so we always get the same results
+    np.random.seed(1)
+
+    test_network = stacked_logreg_model_class(2, 10, 1)
+    _, _, raw_output = test_network.forward_pass(X)
+    correct_output = np.ones(raw_output.shape) * (raw_output >= 0.5)
+    label_output = test_network.predict(X)
+    if label_output.shape != (X.shape[0], 1):
+        print("Wrong prediction shape. Should be", (X.shape[0], 1), 
+              "but got", label_output.shape, "instead!")
+    elif np.array_equal(correct_output, label_output):
+        print("Correct.")
+    else:
+        print("Incorrect implementation of predict.")
+    
+    
 def check_forward_pass(stacked_logreg_model_class,
                        X: np.ndarray,
                        tolerance: float = 1e-3) -> None:
