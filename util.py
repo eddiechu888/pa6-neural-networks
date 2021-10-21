@@ -192,6 +192,8 @@ def check_predict(stacked_logreg_model_class,
               "but got", label_output.shape, "instead!")
     elif np.array_equal(correct_output, label_output):
         print("Correct.")
+    elif not issubclass(label_output.dtype.type, np.integer):
+        print("You did not return an integer from predict().")
     else:
         print("Incorrect implementation of predict.")
     
