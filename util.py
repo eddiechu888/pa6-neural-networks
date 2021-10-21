@@ -156,10 +156,26 @@ def check_parameter_shapes(stacked_logreg_model_class):
         errors.append("b_2")   
     if test_network.b_3.shape != (1, 1):
         errors.append("b_3")   
+       
     if len(errors) == 0:
         print("All parameter shapes are correct.")
     else:
         print(", ".join(errors)+" have incorrect shapes!")
+    
+    W_errors = []
+    b_errors = []
+    for W, name in [(test_network.W_1, 'W_1'), (test_network.W_2, 'W_2'), (test_network.W_3, 'W_3')]:
+        if not np.any(W):
+            W_errors.append(name)
+    
+    for b, name in [(test_network.b_1, 'b_1'), (test_network.b_2, 'b_2'), (test_network.b_3, 'b_3')]:
+        if np.any(b):
+            b_errors.append(name)
+    
+    if len(W_errors) > 0:
+        print(", ".join(W_errors) + ' should not be initialized as zero matrices! Please use the `initialize_weights()` method.')
+    if len(b_errors) > 0:
+        print(', '.join(b_errors) + ' should be initialized as zero matrices!')
         
 def check_predict(stacked_logreg_model_class,
                   X: np.ndarray) -> None:
@@ -176,6 +192,8 @@ def check_predict(stacked_logreg_model_class,
               "but got", label_output.shape, "instead!")
     elif np.array_equal(correct_output, label_output):
         print("Correct.")
+    elif not issubclass(label_output.dtype.type, np.integer):
+        print("You did not return an integer from predict().")
     else:
         print("Incorrect implementation of predict.")
     
