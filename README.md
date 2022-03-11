@@ -1,4 +1,4 @@
-#  PA6 - Neural Networks and SGD
+#  Programming Assignment 6 - Neural Networks
   
 # # Getting the Assignment
   
